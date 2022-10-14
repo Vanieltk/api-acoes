@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gerar-inscricoes
+  namespace: opcore
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: gerar-inscricoes
+            image: alpine:latest
+            command: 
+              - /bin/sh
+              - '-c'
+              - >-
+                apk add curl && 
+                curl -v --request POST --url http://opcore-service/Inscricoes.svc/GerarInscricoesTrial
+            imagePullPolicy: IfNotPresent
+          restartPolicy: Never
