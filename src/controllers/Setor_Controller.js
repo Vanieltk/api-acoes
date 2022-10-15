@@ -1,75 +1,75 @@
-const Acao = require ('../models/acoes.js')
-const Setor = require ('../models/setores')
+const Setor = require('../models/setores')
+
 module.exports = {
     async index(req, res) {
         try {
-            const acoes = await Acao.find()
+            const setores = await Setor.find()
 
-            return res.status(200).json(acoes);
+            return res.status(200).json(setores);
         } catch (error) {
             return res.status(400).json({ msg: error.message });
         }
     },
 
-    busca_id(req, res) {
+    buscaid(req, res) {
         const id = req.params.id;
-        Acao.findById(id, (err, acaoencontrada) => {
+        Setor.findById(id, (err, setorencontrado) => {
 
             if (err) {
                 res.status(500).send(err);
             }
-            else if (acaoencontrada) {
-                return res.json(acaoencontrada);
+            else if (setorencontrado) {
+                return res.json(setorencontrado);
             }
             else {
                 return res.status(404).json(
-                    { Erro: "Ativo nao encontrado" }
+                    { Erro: "Produto nao encontrado" }
                 )
             }
         })
     },
     delete(req, res) {
         const id = req.params.id;
-        Acao.findByIdAndDelete(id, (err, acaodeletada) => {
+        Setor.findByIdAndDelete(id, (err, setordeletado) => {
 
             if (err) {
                 res.status(500).send(err);
             }
-            else if (acaodeletada) {
-                return res.json(acaodeletada);
+            else if (setordeletado) {
+                return res.json(setordeletado);
             }
             else {
                 return res.status(404).json(
-                    { Erro: "Ativo nao encontrado" }
+                    { Erro: "Produto nao encontrado" }
                 )
             }
         })
     },
     atualiza(req, res) {
         const id = req.params.id;
-        const { _codigo, _nome} = req.body
+        const { _setor } = req.body
 
-        Acao.findByIdAndUpdate(id, _codigo, _nome, (err, acaoatualizada) => {
+        Setor.findByIdAndUpdate(id, _setor, (err, setoratualizado) => {
 
             if (err) {
                 res.status(500).send(err);
             }
-            else if (acaoatualizada) {
-                return res.json(acaoatualizada);
+            else if (setoratualizado) {
+                return res.json(setoratualizado);
             }
             else {
                 return res.status(404).json(
-                    { Erro: "Ativo nao encontrado" }
+                    { Erro: "Produto nao encontrado" }
                 )
             }
         })
     },
 
     async create(req, res) {
-        const { codigo, nome, setorid } = req.body
+        const { setor } = req.body
         try {
-            const nova_acao = Acao.create({ codigo, nome, setorid})
-            return res.status(200).json(nova_acao);
+            const novosetor = Setor.create({ setor })
+            return res.status(200).json(novosetor);
         } catch (error) {
             return res.status(400).json({ msg: error.message });
         }
