@@ -3,8 +3,8 @@ const Setor = require ('../models/setores')
 module.exports = {
     async index(req, res) {
         try {
-            const acoes = await Acao.find()
-
+            const acoes = await Acao.find({})
+            .populate("setorid","setor")
             return res.status(200).json(acoes);
         } catch (error) {
             return res.status(400).json({ msg: error.message });
@@ -14,7 +14,7 @@ module.exports = {
     busca_id(req, res) {
         const id = req.params.id;
         Acao.findById(id, (err, acaoencontrada) => {
-
+            
             if (err) {
                 res.status(500).send(err);
             }
@@ -27,6 +27,7 @@ module.exports = {
                 )
             }
         })
+        .populate("setorid","setor")
     },
     delete(req, res) {
         const id = req.params.id;
